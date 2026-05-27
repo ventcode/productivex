@@ -47,8 +47,14 @@ defmodule Productive.Impl.Invoices do
     |> maybe_put_include(filters)
   end
 
+  # The /invoices endpoint does not support the magic `after` shortcut filter
+  # that /time_entries does — it returns HTTP 400 `unsupported_filter`. Encode
+  # the incremental cursor as an operator filter on `updated_at` instead, which
+  # the invoices endpoint does support (gt, lt, gt_eq, lt_eq). `gt_eq` is used
+  # so a record updated exactly on the cursor boundary is re-fetched rather
+  # than missed; upserts make the re-fetch idempotent.
   defp maybe_put_after(params, %{after: %DateTime{} = ts}),
-    do: Map.put(params, :"filter[after]", DateTime.to_iso8601(ts))
+    do: Map.put(params, :"filter[updated_at][gt_eq]", DateTime.to_iso8601(ts))
 
   defp maybe_put_after(params, _), do: params
 
