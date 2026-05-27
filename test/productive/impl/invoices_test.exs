@@ -59,12 +59,12 @@ defmodule Productive.Impl.InvoicesTest do
              Productive.get_invoices(client, %{page: 1, include: 42})
   end
 
-  test "get_invoices/2 encodes filter[after] from a DateTime", %{client: client} do
+  test "get_invoices/2 encodes the :after cursor as filter[updated_at][gt_eq]", %{client: client} do
     Req.Test.stub(Productive.Client, fn conn ->
       assert URI.decode_query(conn.query_string) == %{
                "page" => "1",
                "per_page" => "50",
-               "filter[after]" => "2026-05-16T10:00:00Z"
+               "filter[updated_at][gt_eq]" => "2026-05-16T10:00:00Z"
              }
 
       Req.Test.json(conn, %{"data" => []})
