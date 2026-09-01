@@ -59,7 +59,8 @@ defmodule Productive.Impl.LineItemsTest do
       Req.Test.json(conn, %{"data" => []})
     end)
 
-    assert {:ok, _} = Productive.get_line_items(client, %{invoice_id: "1", include: "invoice", page: 1})
+    assert {:ok, _} =
+             Productive.get_line_items(client, %{invoice_id: "1", include: "invoice", page: 1})
   end
 
   test "get_line_items/2 rejects a bad page", %{client: client} do
