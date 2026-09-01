@@ -3,7 +3,7 @@ defmodule Productive do
   Productive REST API client.
   """
 
-  alias Productive.Impl.{Companies, Invoices, LineItems, Projects, Services, TimeEntries}
+  alias Productive.Impl.{Companies, Invoices, LineItems, Projects, Services, Tasks, TimeEntries}
   alias Productive.{Client, Error}
 
   @type result :: {:ok, map()} | {:error, Error.t()}
@@ -69,6 +69,18 @@ defmodule Productive do
 
   @spec get_line_items!(Client.t(), LineItems.list_filters()) :: map()
   def get_line_items!(client, filters), do: unwrap!(get_line_items(client, filters))
+
+  @doc """
+  Searches tasks. `req_options` are forwarded to `Req` (e.g. `receive_timeout`,
+  `retry`).
+  """
+  @spec get_tasks(Client.t(), Tasks.list_filters(), keyword()) :: result()
+  def get_tasks(client, filters, req_options \\ []),
+    do: Tasks.get_list(client, filters, req_options)
+
+  @spec get_tasks!(Client.t(), Tasks.list_filters(), keyword()) :: map()
+  def get_tasks!(client, filters, req_options \\ []),
+    do: unwrap!(get_tasks(client, filters, req_options))
 
   @spec get_company(Client.t(), Companies.id()) :: result()
   def get_company(client, id), do: Companies.get(client, id)

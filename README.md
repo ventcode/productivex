@@ -41,6 +41,10 @@ raise `Productive.Error`.
 `Productive.get_services/3` currently applies `filter[budget_status]=1` and returns
 budgeted services for the given project.
 
+`Productive.get_tasks/3` searches tasks (`filter[query]`, `filter[project_id]`,
+`page[size]`). The optional third argument is forwarded to `Req`, e.g.
+`receive_timeout: 10_000, retry: false`.
+
 ## Error handling
 
 ```elixir
