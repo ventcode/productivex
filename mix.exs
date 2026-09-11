@@ -4,7 +4,7 @@ defmodule Productive.MixProject do
   def project do
     [
       app: :productive,
-      version: "0.8.0",
+      version: "0.8.1",
       description: "Elixir client for the Productive REST API",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
@@ -22,7 +22,7 @@ defmodule Productive.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:req, "~> 0.5.4"},
+      {:req, "~> 0.5.4 or ~> 0.6 or ~> 0.7"},
       {:plug, "~> 1.18", only: :test}
     ]
   end
